@@ -2,6 +2,7 @@ package it.prova.gestione_hotel.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,7 @@ public class Hotel {
     @Column(name = "nome")
     private String nome;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    private Set<Camera> camere;
+    private Set<Camera> camere = new HashSet<>();
 
     public Hotel(){}
 
