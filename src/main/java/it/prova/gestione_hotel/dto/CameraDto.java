@@ -91,6 +91,7 @@ public class CameraDto {
         return camere.stream().map(c -> CameraDto.fromModel(c)).collect(Collectors.toSet());
     }
 
+
     public Camera toModel(){
         Camera camera = new Camera();
         camera.setHotel(this.getHotel());
