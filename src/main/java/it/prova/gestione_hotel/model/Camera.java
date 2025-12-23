@@ -22,10 +22,8 @@ public class Camera {
     private Double prezzoPerNotte;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hotel_id")
-    @Column(name = "hotel")
     private Hotel hotel;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "camera", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Column(name = "prenotazioni")
     private Set<Prenotazione> prenotazioni;
 
     public Camera(){}

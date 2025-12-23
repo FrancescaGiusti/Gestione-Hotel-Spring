@@ -21,7 +21,6 @@ public class Utente {
     @Column(name = "creditodisponibile")
     private Double creditoDisponibile;
     @OneToMany(mappedBy = "utente", cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    @Column(name = "prenotazioni")
     private Set<Prenotazione> prenotazioni = new HashSet<>();
 
     public Utente(){}

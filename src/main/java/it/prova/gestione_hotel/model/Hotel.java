@@ -20,7 +20,6 @@ public class Hotel {
     @Column(name = "nome")
     private String nome;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "hotel", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @Column(name = "camere")
     private Set<Camera> camere;
 
     public Hotel(){}

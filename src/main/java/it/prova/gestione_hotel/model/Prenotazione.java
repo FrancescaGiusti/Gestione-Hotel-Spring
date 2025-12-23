@@ -13,11 +13,9 @@ public class Prenotazione {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utente_id")
-    @Column(name = "utente")
     private Utente utente;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camera_id")
-    @Column(name = "camera")
     private Camera camera;
     @Column(name = "datadiprenotazione")
     private LocalDate dataDiPrenotazione;
