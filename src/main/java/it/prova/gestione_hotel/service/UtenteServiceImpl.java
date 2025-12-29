@@ -1,5 +1,6 @@
 package it.prova.gestione_hotel.service;
 
+import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.model.Utente;
 import it.prova.gestione_hotel.repository.UtenteRepository;
 import jakarta.transaction.Transactional;
@@ -20,28 +21,28 @@ public class UtenteServiceImpl implements UtenteService{
     }
 
     @Override
-    public Set<Utente> getAll() {
-        return utenteRepository.findAll().stream().collect(Collectors.toSet());
+    public Set<UtenteDto> getAll() {
+        return UtenteDto.fromModel(utenteRepository.findAll().stream().collect(Collectors.toSet()));
     }
 
     @Override
-    public Utente findById(Long id) {
-        return utenteRepository.findById(id).orElse(null);
+    public UtenteDto findById(Long id) {
+        return UtenteDto.fromModelLight(utenteRepository.findById(id).orElse(null));
     }
 
     @Override
-    public void addClient(Utente utente) {
-        if (utente == null)
+    public void addClient(UtenteDto utenteDto) {
+        if (utenteDto == null)
             throw new RuntimeException("Input non valido");
-        utenteRepository.save(utente);
+        utenteRepository.save(utenteDto.toModel());
     }
 
     @Override
-    public void modifyClient(Utente utente) {
-        Utente daModificare = utenteRepository.findById(utente.getId()).orElse(null);
+    public void modifyClient(UtenteDto utenteDto) {
+        Utente daModificare = utenteRepository.findById(utenteDto.toModel().getId()).orElse(null);
         if (daModificare == null)
             throw new RuntimeException("l'utente che vuoi modificare non esiste");
-        utenteRepository.save(daModificare);
+        utenteRepository.save(utenteDto.toModel());
     }
 
     @Override
@@ -49,6 +50,6 @@ public class UtenteServiceImpl implements UtenteService{
         Utente daEliminare = utenteRepository.findById(id).orElse(null);
         if (daEliminare == null)
             throw new RuntimeException("l'utente che vuoi eliminare non esiste");
-        utenteRepository.save(daEliminare);
+        utenteRepository.delete(daEliminare);
     }
 }

@@ -1,5 +1,6 @@
 package it.prova.gestione_hotel.service;
 
+import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.repository.PrenotazioneRepository;
 import jakarta.transaction.Transactional;
@@ -20,28 +21,28 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
     }
 
     @Override
-    public Set<Prenotazione> getAll() {
-        return prenotazioneRepository.findAll().stream().collect(Collectors.toSet());
+    public Set<PrenotazioneDto> getAll() {
+        return PrenotazioneDto.fromModel(prenotazioneRepository.findAll().stream().collect(Collectors.toSet()));
     }
 
     @Override
-    public Prenotazione findById(Long id) {
-        return prenotazioneRepository.findById(id).orElse(null);
+    public PrenotazioneDto findById(Long id) {
+        return PrenotazioneDto.fromModel(prenotazioneRepository.findById(id).orElse(null));
     }
 
     @Override
-    public void addReservation(Prenotazione prenotazione) {
-        if (prenotazione == null)
+    public void addReservation(PrenotazioneDto prenotazioneDto) {
+        if (prenotazioneDto == null)
             throw new RuntimeException("Input non valido");
-        prenotazioneRepository.save(prenotazione);
+        prenotazioneRepository.save(prenotazioneDto.toModel());
     }
 
     @Override
-    public void modifyReservation(Prenotazione prenotazione) {
-        Prenotazione prenotazioneDaModificare = prenotazioneRepository.findById(prenotazione.getId()).orElse(null);
+    public void modifyReservation(PrenotazioneDto prenotazioneDto) {
+        Prenotazione prenotazioneDaModificare = prenotazioneRepository.findById(prenotazioneDto.toModel().getId()).orElse(null);
         if(prenotazioneDaModificare == null)
             throw new RuntimeException("La prenotazione che vuoi modificare non esiste");
-        prenotazioneRepository.save(prenotazioneDaModificare);
+        prenotazioneRepository.save(prenotazioneDto.toModel());
     }
 
     @Override
@@ -49,7 +50,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
         Prenotazione prenotazioneDaEliminare = prenotazioneRepository.findById(id).orElse(null);
         if(prenotazioneDaEliminare == null)
             throw new RuntimeException("La prenotazione che vuoi eliminare non esiste");
-        prenotazioneRepository.save(prenotazioneDaEliminare);
+        prenotazioneRepository.delete(prenotazioneDaEliminare);
     }
 
     @Override
@@ -57,6 +58,7 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
         Prenotazione prenotazione = prenotazioneRepository.findById(id).orElse(null);
         if (prenotazione!= null){
             prenotazione.setAnnullata(true);
+            prenotazioneRepository.save(prenotazione);
         } else{
             throw new RuntimeException("La prenotazione che vuoi eliminare non è presente");
         }

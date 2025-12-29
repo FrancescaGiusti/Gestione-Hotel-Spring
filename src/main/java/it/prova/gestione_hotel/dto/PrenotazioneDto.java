@@ -1,8 +1,12 @@
 package it.prova.gestione_hotel.dto;
 
+import it.prova.gestione_hotel.model.Hotel;
+import it.prova.gestione_hotel.model.Prenotazione;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PrenotazioneDto {
     private Long id;
@@ -72,16 +76,45 @@ public class PrenotazioneDto {
         this.annullata = annullata;
     }
 
-    @Override
-    public String toString() {
-        return "Prenotazione{" +
-                "id=" + id +
-                ", utente=" + utente +
-                ", camera=" + camera +
-                ", dataDiPrenotazione=" + dataDiPrenotazione +
-                ", dataInizioSoggiorno=" + dataInizioSoggiorno +
-                ", dataFineSoggiorno=" + dataFineSoggiorno +
-                ", annullata=" + annullata +
-                '}';
+    public static PrenotazioneDto fromModel(Prenotazione prenotazione) {
+        PrenotazioneDto prenotazioneDto = new PrenotazioneDto();
+        prenotazioneDto.setAnnullata(prenotazioneDto.isAnnullata());
+        prenotazioneDto.setDataDiPrenotazione(prenotazione.getDataDiPrenotazione());
+        prenotazioneDto.setCamera(CameraDto.fromModelLight(prenotazione.getCamera()));
+        prenotazioneDto.setId(prenotazioneDto.getId());
+        prenotazioneDto.setUtente(UtenteDto.fromModelLight(prenotazione.getUtente()));
+        prenotazioneDto.setDataInizioSoggiorno(prenotazione.getDataInizioSoggiorno());
+        prenotazioneDto.setDataFineSoggiorno(prenotazione.getDataFineSoggiorno());
+        return prenotazioneDto;
+    }
+
+    public static Set<PrenotazioneDto> fromModel(Set<Prenotazione> prenotazione){
+        return prenotazione.stream().map(p -> PrenotazioneDto.fromModel(p)).collect(Collectors.toSet());
+    }
+
+    public Prenotazione toModel(){
+        Prenotazione prenotazione = new Prenotazione();
+        prenotazione.setAnnullata(this.isAnnullata());
+        prenotazione.setCamera(this.getCamera().toModel());
+        prenotazione.setDataDiPrenotazione(this.getDataDiPrenotazione());
+        prenotazione.setUtente(this.getUtente().toModel());
+        prenotazione.setDataInizioSoggiorno(this.getDataInizioSoggiorno());
+        prenotazione.setDataFineSoggiorno(this.getDataFineSoggiorno());
+        this.setId(this.getId());
+        return prenotazione;
+    }
+
+    public static PrenotazioneDto fromModelLight(Prenotazione prenotazione) {
+        PrenotazioneDto prenotazioneDto = new PrenotazioneDto();
+        prenotazioneDto.setAnnullata(prenotazioneDto.isAnnullata());
+        prenotazioneDto.setDataDiPrenotazione(prenotazione.getDataDiPrenotazione());
+        prenotazioneDto.setId(prenotazioneDto.getId());
+        prenotazioneDto.setDataInizioSoggiorno(prenotazione.getDataInizioSoggiorno());
+        prenotazioneDto.setDataFineSoggiorno(prenotazione.getDataFineSoggiorno());
+        return prenotazioneDto;
+    }
+
+    public static Set<PrenotazioneDto> fromModelLight(Set<Prenotazione> prenotazione){
+        return prenotazione.stream().map(p -> PrenotazioneDto.fromModelLight(p)).collect(Collectors.toSet());
     }
 }

@@ -1,8 +1,7 @@
 package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Camera;
-import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
+import it.prova.gestione_hotel.model.TipoCamera;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -77,11 +76,11 @@ public class CameraDto {
 
     public static CameraDto fromModel(Camera camera) {
         CameraDto cameraDto = new CameraDto();
-        cameraDto.setHotel(camera.getHotel());
+        cameraDto.setHotel(HotelDto.fromModelLight(camera.getHotel()));
         cameraDto.setId(camera.getId());
         cameraDto.setNumeroCamera(camera.getNumeroCamera());
         cameraDto.setTipoCamera(camera.getTipoCamera());
-        cameraDto.setPrenotazioni(camera.getPrenotazioni());
+        cameraDto.setPrenotazioni(PrenotazioneDto.fromModelLight(camera.getPrenotazioni()));
         cameraDto.setMaxOcppupanti(camera.getMaxOcppupanti());
         cameraDto.setPrezzoPerNotte(camera.getPrezzoPerNotte());
         return cameraDto;
@@ -94,16 +93,29 @@ public class CameraDto {
 
     public Camera toModel(){
         Camera camera = new Camera();
-        camera.setHotel(this.getHotel());
+        camera.setHotel(this.getHotel().toModel());
         camera.setNumeroCamera(this.getNumeroCamera());
         camera.setTipoCamera(this.getTipoCamera());
         camera.setId(this.getId());
-        camera.setPrenotazioni(this.getPrenotazioni());
+        camera.setPrenotazioni(this.getPrenotazioni().stream().map(p-> p.toModel()).collect(Collectors.toSet()));
         camera.setMaxOcppupanti(this.getMaxOcppupanti());
         camera.setPrezzoPerNotte(this.getPrezzoPerNotte());
         return camera;
     }
 
+    public static CameraDto fromModelLight(Camera camera) {
+        CameraDto cameraDto = new CameraDto();
+        cameraDto.setId(camera.getId());
+        cameraDto.setNumeroCamera(camera.getNumeroCamera());
+        cameraDto.setTipoCamera(camera.getTipoCamera());
+        cameraDto.setMaxOcppupanti(camera.getMaxOcppupanti());
+        cameraDto.setPrezzoPerNotte(camera.getPrezzoPerNotte());
+        return cameraDto;
+    }
+
+    public static Set<CameraDto> fromModelLight(Set<Camera> camere){
+        return camere.stream().map(c -> CameraDto.fromModelLight(c)).collect(Collectors.toSet());
+    }
 
 
 

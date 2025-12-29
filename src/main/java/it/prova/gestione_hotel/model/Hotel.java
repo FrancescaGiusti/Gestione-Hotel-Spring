@@ -72,6 +72,14 @@ public class Hotel {
         this.nome = nome;
     }
 
+    public Set<Camera> getCamere() {
+        return camere;
+    }
+
+    public void setCamere(Set<Camera> camere) {
+        this.camere = camere;
+    }
+
     @Override
     public String toString() {
         return "Hotel{" +
