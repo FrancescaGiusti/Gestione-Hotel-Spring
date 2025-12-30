@@ -3,6 +3,7 @@ package it.prova.gestione_hotel.dto;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Hotel;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,8 +12,10 @@ import java.util.stream.Collectors;
 public class HotelDto {
     private Long id;
     private String citta;
+    @NotBlank
     private String indirizzo;
     private Integer civico;
+    @NotBlank
     private String nome;
     private Set<CameraDto> camere = new HashSet<>();
 

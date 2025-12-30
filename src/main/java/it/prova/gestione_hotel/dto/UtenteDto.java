@@ -3,6 +3,8 @@ package it.prova.gestione_hotel.dto;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.model.Utente;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,8 +12,11 @@ import java.util.stream.Collectors;
 
 public class UtenteDto {
     private Long id;
+    @NotBlank
     private String nome;
+    @NotBlank
     private String cognome;
+    @NotBlank
     private String codiceFiscale;
     private Double creditoDisponibile;
     private Set<PrenotazioneDto> prenotazioni = new HashSet<>();

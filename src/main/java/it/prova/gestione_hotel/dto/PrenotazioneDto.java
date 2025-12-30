@@ -3,6 +3,7 @@ package it.prova.gestione_hotel.dto;
 import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.model.Prenotazione;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -10,10 +11,13 @@ import java.util.stream.Collectors;
 
 public class PrenotazioneDto {
     private Long id;
+    @NotBlank
     private UtenteDto utente;
     private CameraDto camera;
     private LocalDate dataDiPrenotazione;
+    @NotBlank
     private LocalDate dataInizioSoggiorno;
+    @NotBlank
     private LocalDate dataFineSoggiorno;
     private boolean annullata = false;
 
@@ -100,7 +104,7 @@ public class PrenotazioneDto {
         prenotazione.setUtente(this.getUtente().toModel());
         prenotazione.setDataInizioSoggiorno(this.getDataInizioSoggiorno());
         prenotazione.setDataFineSoggiorno(this.getDataFineSoggiorno());
-        this.setId(this.getId());
+        prenotazione.setId(this.getId());
         return prenotazione;
     }
 

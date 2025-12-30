@@ -2,6 +2,8 @@ package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,9 +11,14 @@ import java.util.stream.Collectors;
 
 public class CameraDto {
     private Long id;
+    @NotBlank
     private Integer numeroCamera;
+    @NotBlank
     private TipoCamera tipoCamera;
+    @NotBlank
     private Integer maxOcppupanti;
+    @NotBlank
+    @Positive
     private Double prezzoPerNotte;
     private HotelDto hotel;
     private Set<PrenotazioneDto> prenotazioni = new HashSet<>();
@@ -93,7 +100,7 @@ public class CameraDto {
 
     public Camera toModel(){
         Camera camera = new Camera();
-        camera.setHotel(this.getHotel().toModel());
+        camera.setHotel(this.getHotel() != null ? this.getHotel().toModel() : null);
         camera.setNumeroCamera(this.getNumeroCamera());
         camera.setTipoCamera(this.getTipoCamera());
         camera.setId(this.getId());
