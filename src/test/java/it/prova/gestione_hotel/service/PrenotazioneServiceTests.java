@@ -243,4 +243,23 @@ class PrenotazioneServiceTests {
                 () -> prenotazioneService.deleteReservation( 10L));
         System.out.println("******** Fine test deleteReservation ********");
     }
+
+    @Test
+    void logicDeleteReservation() {
+        System.out.println("******** Inizio test logicDeleteReservation ********");
+        System.out.println("******** Fine test logicDeleteReservation ********");
+    }
+
+    @Test
+    void findByAnnullataFalse() {
+        System.out.println("******** Inizio test findByAnnullataFalse ********");
+        System.out.println("******** Fine test findByAnnullataFalse ********");
+    }
+
+    @Test
+    void findAllPageable() {
+        System.out.println("******** Inizio test findAllPageable ********");
+        System.out.println("******** Fine test findAllPageable ********");
+    }
+
 }

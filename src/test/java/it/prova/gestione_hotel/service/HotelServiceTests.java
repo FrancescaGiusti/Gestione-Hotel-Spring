@@ -93,4 +93,16 @@ class HotelServiceTests {
         System.out.println("******** Fine test deleteHotel ********");
     }
 
+    @Test
+    void findByCitta() {
+        System.out.println("******** Inizio test findByCitta ********");
+        System.out.println("******** Fine test findByCitta ********");
+    }
+
+    @Test
+    void findAllPageable() {
+        System.out.println("******** Inizio test findAllPageable ********");
+        System.out.println("******** Fine test findAllPageable ********");
+    }
+
 }

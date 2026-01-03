@@ -104,4 +104,16 @@ class UtenteServiceTests {
                 () -> utenteService.deleteClient(10L ));
         System.out.println("******** Fine test deleteHotel ********");
     }
+
+    @Test
+    void addCredito() {
+        System.out.println("******** Inizio test addCredito ********");
+        System.out.println("******** Fine test addCredito ********");
+    }
+
+    @Test
+    void findAllPageable() {
+        System.out.println("******** Inizio test findAllPageable ********");
+        System.out.println("******** Fine test findAllPageable ********");
+    }
 }
