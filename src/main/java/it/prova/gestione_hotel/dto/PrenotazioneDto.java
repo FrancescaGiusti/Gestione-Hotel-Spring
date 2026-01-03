@@ -82,10 +82,10 @@ public class PrenotazioneDto {
 
     public static PrenotazioneDto fromModel(Prenotazione prenotazione) {
         PrenotazioneDto prenotazioneDto = new PrenotazioneDto();
-        prenotazioneDto.setAnnullata(prenotazioneDto.isAnnullata());
+        prenotazioneDto.setAnnullata(prenotazione.isAnnullata());
         prenotazioneDto.setDataDiPrenotazione(prenotazione.getDataDiPrenotazione());
         prenotazioneDto.setCamera(CameraDto.fromModelLight(prenotazione.getCamera()));
-        prenotazioneDto.setId(prenotazioneDto.getId());
+        prenotazioneDto.setId(prenotazione.getId());
         prenotazioneDto.setUtente(UtenteDto.fromModelLight(prenotazione.getUtente()));
         prenotazioneDto.setDataInizioSoggiorno(prenotazione.getDataInizioSoggiorno());
         prenotazioneDto.setDataFineSoggiorno(prenotazione.getDataFineSoggiorno());
