@@ -32,7 +32,11 @@ public class CameraServiceImpl implements CameraService{
 
     @Override
     public CameraDto findById(Long id) {
-        return CameraDto.fromModel(cameraRepository.findById(id).orElse(null));
+        if(cameraRepository.findById(id).orElse(null) == null){
+            return null;
+        } else {
+            return CameraDto.fromModel(cameraRepository.findById(id).orElse(null));
+        }
     }
 
     @Override
@@ -44,7 +48,7 @@ public class CameraServiceImpl implements CameraService{
 
     @Override
     public void modifyRoom(CameraDto cameraDto) throws EntityNotFoundException {
-        if (this.findById(cameraDto.getId()) == null)
+        if (findById(cameraDto.getId()) == null)
             throw new EntityNotFoundException("La camera che vuoi modificare non esiste");
         cameraRepository.save(cameraDto.toModel());
     }

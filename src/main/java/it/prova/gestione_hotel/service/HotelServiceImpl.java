@@ -31,7 +31,11 @@ public class HotelServiceImpl implements HotelService{
     @Override
     public HotelDto findById(Long id) {
         Hotel hotelDaCercare = hotelRepository.findById(id).orElse(null);
-        return HotelDto.fromModel(hotelDaCercare);
+        if (hotelDaCercare == null){
+            return null;
+        } else {
+            return HotelDto.fromModel(hotelDaCercare);
+        }
     }
 
     @Override

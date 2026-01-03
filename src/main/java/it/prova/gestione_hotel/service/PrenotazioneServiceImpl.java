@@ -30,7 +30,11 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
 
     @Override
     public PrenotazioneDto findById(Long id) {
-        return PrenotazioneDto.fromModel(prenotazioneRepository.findById(id).orElse(null));
+        if (prenotazioneRepository.findById(id).orElse(null) == null){
+            return null;
+        } else{
+            return PrenotazioneDto.fromModel(prenotazioneRepository.findById(id).orElse(null));
+        }
     }
 
     @Override

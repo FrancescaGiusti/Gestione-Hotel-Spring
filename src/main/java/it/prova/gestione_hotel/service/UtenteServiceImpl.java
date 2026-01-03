@@ -31,7 +31,11 @@ public class UtenteServiceImpl implements UtenteService{
 
     @Override
     public UtenteDto findById(Long id) {
-        return UtenteDto.fromModelLight(utenteRepository.findById(id).orElse(null));
+        if (utenteRepository.findById(id).orElse(null) == null){
+            return null;
+        } else {
+            return UtenteDto.fromModelLight(utenteRepository.findById(id).orElse(null));
+        }
     }
 
     @Override
