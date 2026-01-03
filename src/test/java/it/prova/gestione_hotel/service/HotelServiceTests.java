@@ -96,6 +96,16 @@ class HotelServiceTests {
     @Test
     void findByCitta() {
         System.out.println("******** Inizio test findByCitta ********");
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotel.setCitta("Roma");
+        hotelService.addHotel(hotel);
+        HotelDto hotelInserito = hotelService.getAll().stream().findFirst().orElse(null);
+        HotelDto hotelTrovato = hotelService.findByCitta("Roma").stream().findFirst().orElse(null);
+
+        Assertions.assertEquals(hotelTrovato.getCitta(), hotelInserito.getCitta());
+        Assertions.assertThrows(RuntimeException.class,
+                () -> hotelService.findByCitta(null ));
         System.out.println("******** Fine test findByCitta ********");
     }
 

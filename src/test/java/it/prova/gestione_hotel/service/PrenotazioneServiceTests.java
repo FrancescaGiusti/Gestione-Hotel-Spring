@@ -245,14 +245,82 @@ class PrenotazioneServiceTests {
     }
 
     @Test
-    void logicDeleteReservation() {
+    void logicDeleteReservation() throws EntityNotFoundException {
         System.out.println("******** Inizio test logicDeleteReservation ********");
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotelService.addHotel(hotel);
+        HotelDto hotelInserito = hotelService.getAll().stream().findFirst().orElse(null);
+
+        CameraDto camera = new CameraDto();
+        camera.setTipoCamera(TipoCamera.MATRIMONIALE);
+        camera.setNumeroCamera(13);
+        camera.setPrezzoPerNotte(400.0);
+        camera.setMaxOcppupanti(2);
+        camera.setHotel(hotelInserito);
+        cameraService.addRoom(camera);
+        CameraDto cameraAggiunta = cameraService.getAll().stream().findFirst().orElse(null);
+
+        UtenteDto utente = new UtenteDto();
+        utente.setNome("Carlo");
+        utente.setCognome("Rossi");
+        utente.setCodiceFiscale("GHSR62536G");
+        utenteService.addClient(utente);
+        UtenteDto utenteAggiunto = utenteService.getAll().stream().findFirst().orElse(null);
+
+        PrenotazioneDto prenotazione = new PrenotazioneDto();
+        prenotazione.setDataDiPrenotazione(LocalDate.parse("2025-05-10"));
+        prenotazione.setDataInizioSoggiorno(LocalDate.parse("2025-06-10"));
+        prenotazione.setDataFineSoggiorno(LocalDate.parse("2025-06-20"));
+        prenotazione.setCamera(cameraAggiunta);
+        prenotazione.setUtente(utenteAggiunto);
+        prenotazioneService.addReservation(prenotazione);
+
+        PrenotazioneDto prenotazioneAggiunta = prenotazioneService.getAll().stream().findFirst().orElse(null);
+        prenotazioneService.logicDeleteReservation(prenotazioneAggiunta.getId());
+
+        PrenotazioneDto prenotazioneCancellata = prenotazioneService.getAll().stream().findFirst().orElse(null);
+
+        Assertions.assertEquals(prenotazioneCancellata.isAnnullata(), true);
+        Assertions.assertThrows(EntityNotFoundException.class,
+                () -> prenotazioneService.logicDeleteReservation( 10L));
         System.out.println("******** Fine test logicDeleteReservation ********");
     }
 
     @Test
     void findByAnnullataFalse() {
         System.out.println("******** Inizio test findByAnnullataFalse ********");
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotelService.addHotel(hotel);
+        HotelDto hotelInserito = hotelService.getAll().stream().findFirst().orElse(null);
+
+        CameraDto camera = new CameraDto();
+        camera.setTipoCamera(TipoCamera.MATRIMONIALE);
+        camera.setNumeroCamera(13);
+        camera.setPrezzoPerNotte(400.0);
+        camera.setMaxOcppupanti(2);
+        camera.setHotel(hotelInserito);
+        cameraService.addRoom(camera);
+        CameraDto cameraAggiunta = cameraService.getAll().stream().findFirst().orElse(null);
+
+        UtenteDto utente = new UtenteDto();
+        utente.setNome("Carlo");
+        utente.setCognome("Rossi");
+        utente.setCodiceFiscale("GHSR62536G");
+        utenteService.addClient(utente);
+        UtenteDto utenteAggiunto = utenteService.getAll().stream().findFirst().orElse(null);
+
+        PrenotazioneDto prenotazione = new PrenotazioneDto();
+        prenotazione.setDataDiPrenotazione(LocalDate.parse("2025-05-10"));
+        prenotazione.setDataInizioSoggiorno(LocalDate.parse("2025-06-10"));
+        prenotazione.setDataFineSoggiorno(LocalDate.parse("2025-06-20"));
+        prenotazione.setCamera(cameraAggiunta);
+        prenotazione.setUtente(utenteAggiunto);
+        prenotazioneService.addReservation(prenotazione);
+
+        int prenotazioneAnnulataFalse = prenotazioneService.findByAnnullataFalse().size();
+        Assertions.assertEquals(prenotazioneAnnulataFalse, 1);
         System.out.println("******** Fine test findByAnnullataFalse ********");
     }
 
