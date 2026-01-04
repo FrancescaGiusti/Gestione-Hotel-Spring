@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -327,6 +329,52 @@ class PrenotazioneServiceTests {
     @Test
     void findAllPageable() {
         System.out.println("******** Inizio test findAllPageable ********");
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotelService.addHotel(hotel);
+        HotelDto hotelInserito = hotelService.getAll().stream().findFirst().orElse(null);
+
+        CameraDto camera = new CameraDto();
+        camera.setTipoCamera(TipoCamera.MATRIMONIALE);
+        camera.setNumeroCamera(13);
+        camera.setPrezzoPerNotte(400.0);
+        camera.setMaxOcppupanti(2);
+        camera.setHotel(hotelInserito);
+        cameraService.addRoom(camera);
+        CameraDto cameraAggiunta = cameraService.getAll().stream().findFirst().orElse(null);
+
+        UtenteDto utente = new UtenteDto();
+        utente.setNome("Carlo");
+        utente.setCognome("Rossi");
+        utente.setCodiceFiscale("GHSR62536G");
+        utenteService.addClient(utente);
+        UtenteDto utenteAggiunto = utenteService.getAll().stream().findFirst().orElse(null);
+
+        PrenotazioneDto prenotazione = new PrenotazioneDto();
+        prenotazione.setDataDiPrenotazione(LocalDate.parse("2025-05-10"));
+        prenotazione.setDataInizioSoggiorno(LocalDate.parse("2025-06-10"));
+        prenotazione.setDataFineSoggiorno(LocalDate.parse("2025-06-20"));
+        prenotazione.setCamera(cameraAggiunta);
+        prenotazione.setUtente(utenteAggiunto);
+        prenotazioneService.addReservation(prenotazione);
+
+        PrenotazioneDto prenotazione2 = new PrenotazioneDto();
+        prenotazione2.setDataDiPrenotazione(LocalDate.parse("2025-08-10"));
+        prenotazione2.setDataInizioSoggiorno(LocalDate.parse("2025-09-10"));
+        prenotazione2.setDataFineSoggiorno(LocalDate.parse("2025-09-20"));
+        prenotazione2.setCamera(cameraAggiunta);
+        prenotazione2.setUtente(utenteAggiunto);
+        prenotazioneService.addReservation(prenotazione2);
+
+        Pageable pageable = PageRequest.of(0, 2);
+        int size = prenotazioneService.getAllPageable(pageable).size();
+
+        Assertions.assertEquals(2, size);
+
+        pageable = PageRequest.of(0, 1);
+        size = prenotazioneService.getAllPageable(pageable).size();
+
+        Assertions.assertEquals(1, size);
         System.out.println("******** Fine test findAllPageable ********");
     }
 

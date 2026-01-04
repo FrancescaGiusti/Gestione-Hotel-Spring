@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
@@ -210,6 +212,36 @@ class CameraServiceTests {
     @Test
     void findAllPageable() {
         System.out.println("******** Inizio test findAllPageable ********");
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotelService.addHotel(hotel);
+        HotelDto hotelInserito = hotelService.getAll().stream().findFirst().orElse(null);
+
+        CameraDto camera = new CameraDto();
+        camera.setTipoCamera(TipoCamera.MATRIMONIALE);
+        camera.setNumeroCamera(13);
+        camera.setPrezzoPerNotte(400.0);
+        camera.setMaxOcppupanti(2);
+        camera.setHotel(hotelInserito);
+        cameraService.addRoom(camera);
+
+        CameraDto camera2 = new CameraDto();
+        camera2.setTipoCamera(TipoCamera.SINGOLA);
+        camera2.setNumeroCamera(30);
+        camera2.setPrezzoPerNotte(100.0);
+        camera2.setMaxOcppupanti(1);
+        camera2.setHotel(hotelInserito);
+        cameraService.addRoom(camera2);
+
+        Pageable pageable = PageRequest.of(0, 2);
+        int size = cameraService.findAllPageable(pageable).size();
+
+        Assertions.assertEquals(2, size);
+
+        pageable = PageRequest.of(0, 1);
+        size = cameraService.findAllPageable(pageable).size();
+
+        Assertions.assertEquals(1, size);
         System.out.println("******** Fine test findAllPageable ********");
     }
 

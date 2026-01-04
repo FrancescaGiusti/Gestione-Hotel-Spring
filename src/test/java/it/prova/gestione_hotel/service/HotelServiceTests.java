@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
@@ -112,6 +114,26 @@ class HotelServiceTests {
     @Test
     void findAllPageable() {
         System.out.println("******** Inizio test findAllPageable ********");
+
+        HotelDto hotel = new HotelDto();
+        hotel.setNome("Hotel Test");
+        hotel.setCitta("Roma");
+        hotelService.addHotel(hotel);
+
+        HotelDto hotel2 = new HotelDto();
+        hotel2.setNome("Hotel Rione");
+        hotel2.setCitta("Roma");
+        hotelService.addHotel(hotel2);
+
+        Pageable pageable = PageRequest.of(0, 2);
+        int size = hotelService.getAllPageable(pageable).size();
+
+        Assertions.assertEquals(2, size);
+
+        pageable = PageRequest.of(0, 1);
+        size = hotelService.getAllPageable(pageable).size();
+
+        Assertions.assertEquals(1, size);
         System.out.println("******** Fine test findAllPageable ********");
     }
 

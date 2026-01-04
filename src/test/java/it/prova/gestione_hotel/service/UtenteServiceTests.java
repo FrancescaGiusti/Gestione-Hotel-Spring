@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
@@ -135,6 +137,27 @@ class UtenteServiceTests {
     @Test
     void findAllPageable() {
         System.out.println("******** Inizio test findAllPageable ********");
+        UtenteDto utente = new UtenteDto();
+        utente.setNome("Carlo");
+        utente.setCognome("Rossi");
+        utente.setCodiceFiscale("GHSR62536G");
+        utenteService.addClient(utente);
+
+        UtenteDto utente2 = new UtenteDto();
+        utente2.setNome("Mario");
+        utente2.setCognome("Rossi");
+        utente2.setCodiceFiscale("MRSR62536G");
+        utenteService.addClient(utente2);
+
+        Pageable pageable = PageRequest.of(0, 2);
+        int size = utenteService.getAllPaginated(pageable).size();
+
+        Assertions.assertEquals(2, size);
+
+        pageable = PageRequest.of(0, 1);
+        size = utenteService.getAllPaginated(pageable).size();
+
+        Assertions.assertEquals(1, size);
         System.out.println("******** Fine test findAllPageable ********");
     }
 }
