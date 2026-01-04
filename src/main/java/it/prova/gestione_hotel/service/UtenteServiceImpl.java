@@ -63,12 +63,19 @@ public class UtenteServiceImpl implements UtenteService{
 
     @Override
     public void addCredito(UtenteAggiungiCreditoDto utenteAggiungiCreditoDto) throws EntityNotFoundException {
-        if (utenteAggiungiCreditoDto.getId() == null && utenteAggiungiCreditoDto.getCreditoDaAggiungere() == null)
-            throw new RuntimeException("Input non valido");
-        int updated = utenteRepository.addCredit(utenteAggiungiCreditoDto.getId(), utenteAggiungiCreditoDto.getCreditoDaAggiungere());
-        if (updated == 0) {
-            throw new EntityNotFoundException("Entità non trovata, la modifica non è avvenuta correttamente");
-        }
+//        if (utenteAggiungiCreditoDto.getId() == null && utenteAggiungiCreditoDto.getCreditoDaAggiungere() == null)
+//            throw new RuntimeException("Input non valido");
+//        int updated = utenteRepository.addCredit(utenteAggiungiCreditoDto.getId(), utenteAggiungiCreditoDto.getCreditoDaAggiungere());
+//        if (updated == 0) {
+//            throw new EntityNotFoundException("Entità non trovata, la modifica non è avvenuta correttamente");
+//        }
+
+        Utente utente = utenteRepository.findById(utenteAggiungiCreditoDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
+
+        utente.setCreditoDisponibile(
+                utente.getCreditoDisponibile() + utenteAggiungiCreditoDto.getCreditoDaAggiungere()
+        );
     }
 
     @Override

@@ -1,6 +1,7 @@
 package it.prova.gestione_hotel.service;
 
 import it.prova.gestione_hotel.dto.HotelDto;
+import it.prova.gestione_hotel.dto.UtenteAggiungiCreditoDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -87,8 +88,8 @@ class UtenteServiceTests {
     }
 
     @Test
-    void deleteHotel() throws EntityNotFoundException {
-        System.out.println("******** Inizio test deleteHotel ********");
+    void deleteUtente() throws EntityNotFoundException {
+        System.out.println("******** Inizio test deleteUtente ********");
         int utentiIniziali = utenteService.getAll().size();
         UtenteDto utente = new UtenteDto();
         utente.setNome("Carlo");
@@ -102,12 +103,32 @@ class UtenteServiceTests {
         Assertions.assertEquals(utentiIniziali, utentiFinali);
         Assertions.assertThrows(EntityNotFoundException.class,
                 () -> utenteService.deleteClient(10L ));
-        System.out.println("******** Fine test deleteHotel ********");
+        System.out.println("******** Fine test deleteUtente ********");
     }
 
     @Test
-    void addCredito() {
+    void addCredito() throws EntityNotFoundException {
         System.out.println("******** Inizio test addCredito ********");
+        UtenteDto utente = new UtenteDto();
+        utente.setNome("Carlo");
+        utente.setCognome("Rossi");
+        utente.setCodiceFiscale("GHSR62536G");
+        utenteService.addClient(utente);
+        UtenteDto utenteAggiunto = utenteService.getAll().stream().findFirst().orElse(null);
+
+        UtenteAggiungiCreditoDto utenteACuiAggiungereIlCredito = new UtenteAggiungiCreditoDto();
+        utenteACuiAggiungereIlCredito.setCreditoDaAggiungere(300.0);
+        utenteACuiAggiungereIlCredito.setId(utenteAggiunto.getId());
+        utenteService.addCredito(utenteACuiAggiungereIlCredito);
+
+        UtenteDto utenteConCreditoModificato = utenteService.getAll().stream().findFirst().orElse(null);
+        Assertions.assertEquals(utenteConCreditoModificato.getCreditoDisponibile(), 300.0);
+
+        UtenteAggiungiCreditoDto utentePerVerificaEccezione = new UtenteAggiungiCreditoDto();
+        utentePerVerificaEccezione.setCreditoDaAggiungere(300.0);
+        utentePerVerificaEccezione.setId(1000L);
+        Assertions.assertThrows(EntityNotFoundException.class,
+                ()-> utenteService.addCredito(utentePerVerificaEccezione));
         System.out.println("******** Fine test addCredito ********");
     }
 

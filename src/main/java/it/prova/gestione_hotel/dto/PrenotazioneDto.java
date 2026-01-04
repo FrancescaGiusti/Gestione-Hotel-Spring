@@ -4,6 +4,7 @@ import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.model.Prenotazione;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,13 +12,13 @@ import java.util.stream.Collectors;
 
 public class PrenotazioneDto {
     private Long id;
-    @NotBlank
+    @NotNull
     private UtenteDto utente;
     private CameraDto camera;
     private LocalDate dataDiPrenotazione;
-    @NotBlank
+    @NotNull
     private LocalDate dataInizioSoggiorno;
-    @NotBlank
+    @NotNull
     private LocalDate dataFineSoggiorno;
     private boolean annullata = false;
 

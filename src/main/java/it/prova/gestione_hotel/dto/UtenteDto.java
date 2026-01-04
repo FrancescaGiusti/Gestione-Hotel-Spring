@@ -93,7 +93,7 @@ public class UtenteDto {
         utente.setCodiceFiscale(this.getCodiceFiscale());
         utente.setPrenotazioni((this.getPrenotazioni().stream().map(p-> p.toModel()).collect(Collectors.toSet())));
         utente.setId(this.getId());
-        utente.setCreditoDisponibile(this.getCreditoDisponibile());
+        utente.setCreditoDisponibile(this.getCreditoDisponibile() == null ? 0 : this.getCreditoDisponibile());
         return utente;
     }
 

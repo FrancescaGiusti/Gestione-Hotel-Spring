@@ -3,6 +3,7 @@ package it.prova.gestione_hotel.dto;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.util.HashSet;
@@ -11,13 +12,14 @@ import java.util.stream.Collectors;
 
 public class CameraDto {
     private Long id;
-    @NotBlank
+    @NotNull
     private Integer numeroCamera;
-    @NotBlank
+    @NotNull
     private TipoCamera tipoCamera;
-    @NotBlank
+    @NotNull
+    @Positive
     private Integer maxOcppupanti;
-    @NotBlank
+    @NotNull
     @Positive
     private Double prezzoPerNotte;
     private HotelDto hotel;
