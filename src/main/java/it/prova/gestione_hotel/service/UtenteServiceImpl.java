@@ -2,13 +2,16 @@ package it.prova.gestione_hotel.service;
 
 import it.prova.gestione_hotel.dto.UtenteAggiungiCreditoDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
+import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.Utente;
 import it.prova.gestione_hotel.repository.UtenteRepository;
+import it.prova.gestione_hotel.specification.UtenteSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -82,6 +85,13 @@ public class UtenteServiceImpl implements UtenteService{
     public Set<UtenteDto> getAllPaginated(Pageable pageable) {
         Page<Utente> utentePaginated = utenteRepository.findAll(pageable);
         return utentePaginated.stream().map(u -> UtenteDto.fromModel(u)).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<UtenteDto> getAllFiltered(UtenteDtoFiltro filter, Pageable pageable) {
+        Specification<Utente> spec = UtenteSpecification.findByNameAndSurname(filter);
+        Page<Utente> utenti = utenteRepository.findAll(spec, pageable);
+        return utenti.stream().map(u -> UtenteDto.fromModel(u)).collect(Collectors.toSet());
     }
 
 

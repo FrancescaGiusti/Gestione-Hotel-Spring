@@ -1,6 +1,7 @@
 package it.prova.gestione_hotel.service;
 
 import it.prova.gestione_hotel.dto.CameraDto;
+import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.TipoCamera;
@@ -17,4 +18,5 @@ public interface CameraService {
     void modifyPartiallyCamera(Long id, CameraPatchDto cameraPatchDto) throws EntityNotFoundException;
     Set<CameraDto> findByTipoCamera(TipoCamera tipoCamera);
     Set<CameraDto> findAllPageable(Pageable pageable);
+    Set<CameraDto> findCameraWithFilter (CameraDtoFiltro filter, Pageable pageable);
 }

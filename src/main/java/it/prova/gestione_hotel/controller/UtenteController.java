@@ -2,6 +2,7 @@ package it.prova.gestione_hotel.controller;
 
 import it.prova.gestione_hotel.dto.UtenteAggiungiCreditoDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
+import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.service.UtenteService;
 import jakarta.validation.Valid;
@@ -57,4 +58,10 @@ public class UtenteController {
     public ResponseEntity<Set<UtenteDto>> getAllPaginated(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(utenteService.getAllPaginated(pageable));
     }
+
+    @GetMapping("/filtro")
+    public ResponseEntity<Set<UtenteDto>> getAllFiltered(UtenteDtoFiltro filter, Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(utenteService.getAllFiltered(filter, pageable));
+    }
+
 }

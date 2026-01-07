@@ -1,15 +1,18 @@
 package it.prova.gestione_hotel.service;
 
 import it.prova.gestione_hotel.dto.CameraDto;
+import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
 import it.prova.gestione_hotel.repository.CameraRepository;
+import it.prova.gestione_hotel.specification.CameraSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -85,4 +88,15 @@ public class CameraServiceImpl implements CameraService{
         Page<Camera> camerePaginated = cameraRepository.findAll(pageable);
         return camerePaginated.stream().map(c-> CameraDto.fromModel(c)).collect(Collectors.toSet());
     }
+
+    @Override
+    public Set<CameraDto> findCameraWithFilter(CameraDtoFiltro filter, Pageable pageable) {
+        Specification<Camera> spec = CameraSpecification.withPrenotazioniBetweenDates(filter);
+
+        Page<Camera> camerePaginate = cameraRepository.findAll(spec, pageable);
+
+        return camerePaginate.stream().map(c -> CameraDto.fromModel(c)).collect(Collectors.toSet());
+    }
+
+
 }

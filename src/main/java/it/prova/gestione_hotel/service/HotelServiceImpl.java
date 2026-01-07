@@ -1,13 +1,16 @@
 package it.prova.gestione_hotel.service;
 
 import it.prova.gestione_hotel.dto.HotelDto;
+import it.prova.gestione_hotel.dto.HotelDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.repository.HotelRepository;
+import it.prova.gestione_hotel.specification.HotelSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -70,5 +73,13 @@ public class HotelServiceImpl implements HotelService{
     public Set<HotelDto> getAllPageable(Pageable pageable) {
         Page<Hotel> hotelPaginated = hotelRepository.findAll(pageable);
         return hotelPaginated.stream().map(h -> HotelDto.fromModel(h)).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<HotelDto> getAllFiltered(HotelDtoFiltro filter, Pageable pageable) {
+        Specification<Hotel> spec = HotelSpecification.searchByCity(filter);
+
+        Page<Hotel> hotelPaginati = hotelRepository.findAll(spec, pageable);
+        return hotelPaginati.stream().map(m -> HotelDto.fromModel(m)).collect(Collectors.toSet());
     }
 }

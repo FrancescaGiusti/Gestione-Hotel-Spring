@@ -1,6 +1,7 @@
 package it.prova.gestione_hotel.controller;
 
 import it.prova.gestione_hotel.dto.CameraDto;
+import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.TipoCamera;
@@ -42,7 +43,7 @@ public class CameraController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCorso(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteCamera(@PathVariable Long id) throws EntityNotFoundException {
         cameraService.deleteRoom(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
@@ -61,6 +62,11 @@ public class CameraController {
     @GetMapping("/page")
     public ResponseEntity<Set<CameraDto>> getCamerePaged(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.findAllPageable(pageable));
+    }
+
+    @GetMapping("/filtro")
+    public ResponseEntity<Set<CameraDto>> cercaCamereConFiltro(CameraDtoFiltro filter, Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.findCameraWithFilter(filter, pageable));
     }
 
 
