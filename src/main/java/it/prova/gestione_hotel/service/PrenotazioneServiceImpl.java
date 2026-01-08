@@ -4,6 +4,8 @@ import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
+import it.prova.gestione_hotel.exception.PrenotazioneNonTrovataException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.repository.PrenotazioneRepository;
@@ -46,15 +48,15 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
     @Override
     public void addReservation(PrenotazioneDto prenotazioneDto) {
         if (prenotazioneDto == null)
-            throw new RuntimeException("Input non valido");
+            throw new InputNonValidoException("Input non valido");
         prenotazioneRepository.save(prenotazioneDto.toModel());
     }
 
     @Override
-    public void modifyReservation(PrenotazioneDto prenotazioneDto) throws EntityNotFoundException {
+    public void modifyReservation(PrenotazioneDto prenotazioneDto) throws PrenotazioneNonTrovataException {
         Prenotazione prenotazioneDaModificare = prenotazioneRepository.findById(prenotazioneDto.toModel().getId()).orElse(null);
         if(prenotazioneDaModificare == null)
-            throw new EntityNotFoundException("La prenotazione che vuoi modificare non esiste");
+            throw new PrenotazioneNonTrovataException("La prenotazione che vuoi modificare non esiste");
         prenotazioneRepository.save(prenotazioneDto.toModel());
     }
 
@@ -62,18 +64,18 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
     public void deleteReservation(Long id) {
         Prenotazione prenotazioneDaEliminare = prenotazioneRepository.findById(id).orElse(null);
         if(prenotazioneDaEliminare == null)
-            throw new RuntimeException("La prenotazione che vuoi eliminare non esiste");
+            throw new PrenotazioneNonTrovataException("La prenotazione che vuoi eliminare non esiste");
         prenotazioneRepository.delete(prenotazioneDaEliminare);
     }
 
     @Override
-    public void logicDeleteReservation(Long id) throws EntityNotFoundException {
+    public void logicDeleteReservation(Long id) throws PrenotazioneNonTrovataException {
         Prenotazione prenotazione = prenotazioneRepository.findById(id).orElse(null);
         if (prenotazione!= null){
             prenotazione.setAnnullata(true);
             prenotazioneRepository.save(prenotazione);
         } else{
-            throw new EntityNotFoundException("La prenotazione che vuoi eliminare non è presente");
+            throw new PrenotazioneNonTrovataException("La prenotazione che vuoi eliminare non è presente");
         }
     }
 

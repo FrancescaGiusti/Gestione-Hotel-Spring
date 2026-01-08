@@ -4,6 +4,8 @@ import it.prova.gestione_hotel.dto.UtenteAggiungiCreditoDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
+import it.prova.gestione_hotel.exception.UtenteNonTrovatoException;
 import it.prova.gestione_hotel.model.Utente;
 import it.prova.gestione_hotel.repository.UtenteRepository;
 import it.prova.gestione_hotel.specification.UtenteSpecification;
@@ -44,28 +46,28 @@ public class UtenteServiceImpl implements UtenteService{
     @Override
     public void addClient(UtenteDto utenteDto) {
         if (utenteDto == null)
-            throw new RuntimeException("Input non valido");
+            throw new InputNonValidoException("Input non valido");
         utenteRepository.save(utenteDto.toModel());
     }
 
     @Override
-    public void modifyClient(UtenteDto utenteDto) throws EntityNotFoundException {
+    public void modifyClient(UtenteDto utenteDto) throws UtenteNonTrovatoException {
         Utente daModificare = utenteRepository.findById(utenteDto.toModel().getId()).orElse(null);
         if (daModificare == null)
-            throw new EntityNotFoundException("l'utente che vuoi modificare non esiste");
+            throw new UtenteNonTrovatoException("l'utente che vuoi modificare non esiste");
         utenteRepository.save(utenteDto.toModel());
     }
 
     @Override
-    public void deleteClient(Long id) throws EntityNotFoundException {
+    public void deleteClient(Long id) throws UtenteNonTrovatoException {
         Utente daEliminare = utenteRepository.findById(id).orElse(null);
         if (daEliminare == null)
-            throw new EntityNotFoundException("l'utente che vuoi eliminare non esiste");
+            throw new UtenteNonTrovatoException("l'utente che vuoi eliminare non esiste");
         utenteRepository.delete(daEliminare);
     }
 
     @Override
-    public void addCredito(UtenteAggiungiCreditoDto utenteAggiungiCreditoDto) throws EntityNotFoundException {
+    public void addCredito(UtenteAggiungiCreditoDto utenteAggiungiCreditoDto) throws UtenteNonTrovatoException {
 //        if (utenteAggiungiCreditoDto.getId() == null && utenteAggiungiCreditoDto.getCreditoDaAggiungere() == null)
 //            throw new RuntimeException("Input non valido");
 //        int updated = utenteRepository.addCredit(utenteAggiungiCreditoDto.getId(), utenteAggiungiCreditoDto.getCreditoDaAggiungere());
@@ -74,7 +76,7 @@ public class UtenteServiceImpl implements UtenteService{
 //        }
 
         Utente utente = utenteRepository.findById(utenteAggiungiCreditoDto.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
+                .orElseThrow(() -> new UtenteNonTrovatoException("Utente non trovato"));
 
         utente.setCreditoDisponibile(
                 utente.getCreditoDisponibile() + utenteAggiungiCreditoDto.getCreditoDaAggiungere()

@@ -3,7 +3,10 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.HotelDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.HotelNonTrovatoException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.TipoCamera;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -73,7 +76,7 @@ class HotelServiceTests {
         Assertions.assertEquals(hotelModificato.getNome(), "Hotel modificato");
 
         hotelModificato.setId(100000L);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(HotelNonTrovatoException.class,
                 () -> hotelService.modifyHotel(hotelModificato));
         System.out.println("******** Fine test modifyHotel ********");
     }
@@ -90,7 +93,7 @@ class HotelServiceTests {
         int hotelFinali = hotelService.getAll().size();
 
         Assertions.assertEquals(hotelIniziali, hotelFinali);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(HotelNonTrovatoException.class,
                 () -> hotelService.deleteHotel(10L ));
         System.out.println("******** Fine test deleteHotel ********");
     }
@@ -106,7 +109,7 @@ class HotelServiceTests {
         HotelDto hotelTrovato = hotelService.findByCitta("Roma").stream().findFirst().orElse(null);
 
         Assertions.assertEquals(hotelTrovato.getCitta(), hotelInserito.getCitta());
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(InputNonValidoException.class,
                 () -> hotelService.findByCitta(null ));
         System.out.println("******** Fine test findByCitta ********");
     }

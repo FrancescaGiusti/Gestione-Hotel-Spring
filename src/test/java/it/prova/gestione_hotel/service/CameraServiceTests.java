@@ -3,7 +3,9 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
 import it.prova.gestione_hotel.dto.HotelDto;
+import it.prova.gestione_hotel.exception.CameraNonTrovataException;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
 import jakarta.transaction.Transactional;
@@ -89,13 +91,13 @@ class CameraServiceTests {
         int camereFinali = cameraService.getAll().size();
 
         Assertions.assertEquals(camereIniziali + 1, camereFinali);
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(CameraNonTrovataException.class,
                 () -> cameraService.addRoom( null));
         System.out.println("******** Fine test addRoom ********");
     }
 
     @Test
-    void modifyRoom() throws EntityNotFoundException {
+    void modifyRoom() throws CameraNonTrovataException, EntityNotFoundException {
         System.out.println("******** Inizio test modifyRoom ********");
         HotelDto hotel = new HotelDto();
         hotel.setNome("Hotel Test");
@@ -120,13 +122,13 @@ class CameraServiceTests {
         Assertions.assertEquals(cameraModificata.getTipoCamera(), TipoCamera.SINGOLA);
 
         cameraModificata.setId(100000L);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(CameraNonTrovataException.class,
                 () -> cameraService.modifyRoom(cameraModificata));
         System.out.println("******** Fine test addRoom ********");
     }
 
     @Test
-    void deleteRoom() throws EntityNotFoundException {
+    void deleteRoom() throws CameraNonTrovataException, EntityNotFoundException {
         System.out.println("******** Inizio test deleteRoom ********");
         HotelDto hotel = new HotelDto();
         hotel.setNome("Hotel Test");
@@ -147,13 +149,13 @@ class CameraServiceTests {
         int camereFinali = cameraService.getAll().size();
 
         Assertions.assertEquals(camereIniziali, camereFinali);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(CameraNonTrovataException.class,
                 () -> cameraService.deleteRoom(10L ));
         System.out.println("******** Fine test deleteRoom ********");
     }
 
     @Test
-    void modifyPartiallyRoom() throws EntityNotFoundException {
+    void modifyPartiallyRoom() throws CameraNonTrovataException, EntityNotFoundException {
         System.out.println("******** Inizio test modifyPartiallyRoom ********");
         HotelDto hotel = new HotelDto();
         hotel.setNome("Hotel Test");
@@ -177,9 +179,9 @@ class CameraServiceTests {
 
         Assertions.assertEquals(cameraModificata.getPrezzoPerNotte(), 500.0);
 
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(CameraNonTrovataException.class,
                 () -> cameraService.modifyPartiallyCamera(1000L, null));
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(InputNonValidoException.class,
                 () -> cameraService.modifyPartiallyCamera(id, null));
         System.out.println("******** Fine test modifyPartiallyRoom ********");
     }
@@ -204,7 +206,7 @@ class CameraServiceTests {
         CameraDto cameraAggiunta = cameraService.getAll().stream().findFirst().orElse(null);
 
         Assertions.assertEquals(cameraMatrimoniale.getTipoCamera(), cameraAggiunta.getTipoCamera());
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(InputNonValidoException.class,
                 () -> cameraService.findByTipoCamera(null));
         System.out.println("******** Fine test findByTipoCamera ********");
     }

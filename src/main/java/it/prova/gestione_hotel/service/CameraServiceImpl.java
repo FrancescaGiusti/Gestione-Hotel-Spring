@@ -3,7 +3,9 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
+import it.prova.gestione_hotel.exception.CameraNonTrovataException;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
 import it.prova.gestione_hotel.repository.CameraRepository;
@@ -45,32 +47,32 @@ public class CameraServiceImpl implements CameraService{
     @Override
     public void addRoom(CameraDto cameraDto) {
         if(cameraDto == null)
-            throw new RuntimeException("Input non valido");
+            throw new CameraNonTrovataException("Input non valido");
         cameraRepository.save(cameraDto.toModel());
     }
 
     @Override
-    public void modifyRoom(CameraDto cameraDto) throws EntityNotFoundException {
+    public void modifyRoom(CameraDto cameraDto) throws CameraNonTrovataException {
         if (findById(cameraDto.getId()) == null)
-            throw new EntityNotFoundException("La camera che vuoi modificare non esiste");
+            throw new CameraNonTrovataException("La camera che vuoi modificare non esiste");
         cameraRepository.save(cameraDto.toModel());
     }
 
     @Override
-    public void deleteRoom(Long id) throws EntityNotFoundException {
+    public void deleteRoom(Long id) throws CameraNonTrovataException {
         Camera cameraDaEliminare = cameraRepository.findById(id).orElse(null);
         if ( cameraDaEliminare== null)
-            throw new EntityNotFoundException("La camera che vuoi eliminare non esiste");
+            throw new CameraNonTrovataException("La camera che vuoi eliminare non esiste");
         cameraRepository.delete(cameraDaEliminare);
     }
 
     @Override
-    public void modifyPartiallyCamera(Long id, CameraPatchDto cameraPatchDto) throws EntityNotFoundException {
+    public void modifyPartiallyCamera(Long id, CameraPatchDto cameraPatchDto) throws CameraNonTrovataException {
         Camera camera = cameraRepository.findById(id).orElse(null);
         if (camera == null)
-            throw new EntityNotFoundException("Entity non trovata");
+            throw new CameraNonTrovataException("Entity non trovata");
         if (cameraPatchDto == null) {
-            throw new RuntimeException("Input non valido");
+            throw new InputNonValidoException("Input non valido");
         }
         camera.setPrezzoPerNotte(cameraPatchDto.getPrezzoPerNotte());
         cameraRepository.save(camera);
@@ -79,7 +81,7 @@ public class CameraServiceImpl implements CameraService{
     @Override
     public Set<CameraDto> findByTipoCamera(TipoCamera tipoCamera) {
         if (tipoCamera == null)
-            throw new RuntimeException("Input non valido");
+            throw new InputNonValidoException("Input non valido");
         return CameraDto.fromModel(cameraRepository.findByTipoCamera(tipoCamera));
     }
 

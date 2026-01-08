@@ -5,6 +5,8 @@ import it.prova.gestione_hotel.dto.HotelDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
+import it.prova.gestione_hotel.exception.PrenotazioneNonTrovataException;
 import it.prova.gestione_hotel.model.TipoCamera;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
@@ -148,7 +150,7 @@ class PrenotazioneServiceTests {
         int prenotazioniFinali = prenotazioneService.getAll().size();
 
         Assertions.assertEquals(prenotazioniIniziali + 1, prenotazioniFinali);
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(InputNonValidoException.class,
                 () -> prenotazioneService.addReservation( null));
         System.out.println("******** Fine test addPrenotazione ********");
     }
@@ -196,7 +198,7 @@ class PrenotazioneServiceTests {
         Assertions.assertEquals(prenotazioneModificata.isAnnullata(), true);
 
         prenotazioneModificata.setId(100000L);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(PrenotazioneNonTrovataException.class,
                 () -> prenotazioneService.modifyReservation(prenotazioneModificata));
         System.out.println("******** Fine test modifyReservation ********");
     }
@@ -241,7 +243,7 @@ class PrenotazioneServiceTests {
         int prenotazioniFinali = prenotazioneService.getAll().size();
 
         Assertions.assertEquals(prenotazioniIniziali, prenotazioniFinali);
-        Assertions.assertThrows(RuntimeException.class,
+        Assertions.assertThrows(PrenotazioneNonTrovataException.class,
                 () -> prenotazioneService.deleteReservation( 10L));
         System.out.println("******** Fine test deleteReservation ********");
     }
@@ -284,7 +286,7 @@ class PrenotazioneServiceTests {
         PrenotazioneDto prenotazioneCancellata = prenotazioneService.getAll().stream().findFirst().orElse(null);
 
         Assertions.assertEquals(prenotazioneCancellata.isAnnullata(), true);
-        Assertions.assertThrows(EntityNotFoundException.class,
+        Assertions.assertThrows(PrenotazioneNonTrovataException.class,
                 () -> prenotazioneService.logicDeleteReservation( 10L));
         System.out.println("******** Fine test logicDeleteReservation ********");
     }

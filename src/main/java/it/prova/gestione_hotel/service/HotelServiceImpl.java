@@ -3,6 +3,8 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.HotelDto;
 import it.prova.gestione_hotel.dto.HotelDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.exception.HotelNonTrovatoException;
+import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.repository.HotelRepository;
 import it.prova.gestione_hotel.specification.HotelSpecification;
@@ -47,25 +49,25 @@ public class HotelServiceImpl implements HotelService{
     }
 
     @Override
-    public void modifyHotel(HotelDto hotelDto) throws EntityNotFoundException {
+    public void modifyHotel(HotelDto hotelDto) throws HotelNonTrovatoException {
         Hotel hotelDaModificare = hotelRepository.findById(hotelDto.toModel().getId()).orElse(null);
         if (hotelDaModificare == null)
-            throw new EntityNotFoundException("L'hotel che vuoi modificare non esiste");
+            throw new HotelNonTrovatoException("L'hotel che vuoi modificare non esiste");
         hotelRepository.save(hotelDto.toModel());
     }
 
     @Override
-    public void deleteHotel(Long id) throws EntityNotFoundException {
+    public void deleteHotel(Long id) throws HotelNonTrovatoException {
         Hotel hotelDaEliminare = hotelRepository.findById(id).orElse(null);
         if (hotelDaEliminare == null)
-            throw new EntityNotFoundException("L'hotel che vuoi eliminare non esiste");
+            throw new HotelNonTrovatoException("L'hotel che vuoi eliminare non esiste");
         hotelRepository.delete(hotelDaEliminare);
     }
 
     @Override
     public Set<HotelDto> findByCitta(String citta) {
         if(citta == null)
-            throw new RuntimeException("Input non valido");
+            throw new InputNonValidoException("Input non valido");
         return HotelDto.fromModel(hotelRepository.findByCitta(citta));
     }
 
