@@ -77,7 +77,7 @@ public class HotelServiceImpl implements HotelService{
 
     @Override
     public Set<HotelDto> getAllFiltered(HotelDtoFiltro filter, Pageable pageable) {
-        Specification<Hotel> spec = HotelSpecification.searchByCity(filter);
+        Specification<Hotel> spec = HotelSpecification.searchWithFilter(filter);
 
         Page<Hotel> hotelPaginati = hotelRepository.findAll(spec, pageable);
         return hotelPaginati.stream().map(m -> HotelDto.fromModel(m)).collect(Collectors.toSet());

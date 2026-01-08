@@ -1,13 +1,19 @@
 package it.prova.gestione_hotel.service;
 
+import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDto;
+import it.prova.gestione_hotel.dto.PrenotazioneDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.repository.PrenotazioneRepository;
+import it.prova.gestione_hotel.specification.CameraSpecification;
+import it.prova.gestione_hotel.specification.PrenotazioneSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -80,5 +86,14 @@ public class PrenotazioneServiceImpl implements PrenotazioneService{
     public Set<PrenotazioneDto> getAllPageable(Pageable pageable) {
         Page<Prenotazione> prenotazionePaginated = prenotazioneRepository.findAll(pageable);
         return prenotazionePaginated.stream().map(p -> PrenotazioneDto.fromModel(p)).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<PrenotazioneDto> filtraPrenotazioni(PrenotazioneDtoFiltro filter, Pageable pageable) {
+        Specification<Prenotazione> spec = PrenotazioneSpecification.withFilter(filter);
+
+        Page<Prenotazione> prenotazioniPaginate = prenotazioneRepository.findAll(spec, pageable);
+
+        return prenotazioniPaginate.stream().map(p -> PrenotazioneDto.fromModel(p)).collect(Collectors.toSet());
     }
 }

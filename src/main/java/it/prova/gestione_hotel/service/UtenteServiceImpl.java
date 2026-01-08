@@ -89,7 +89,7 @@ public class UtenteServiceImpl implements UtenteService{
 
     @Override
     public Set<UtenteDto> getAllFiltered(UtenteDtoFiltro filter, Pageable pageable) {
-        Specification<Utente> spec = UtenteSpecification.findByNameAndSurname(filter);
+        Specification<Utente> spec = UtenteSpecification.searchWithFilter(filter);
         Page<Utente> utenti = utenteRepository.findAll(spec, pageable);
         return utenti.stream().map(u -> UtenteDto.fromModel(u)).collect(Collectors.toSet());
     }

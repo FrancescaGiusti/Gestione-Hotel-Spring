@@ -6,16 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 
 public class CameraDtoFiltro {
-    @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataInizioDa;
-    @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataInizioA;
-    @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataFineDa;
-    @Future
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate dataFineA;
 

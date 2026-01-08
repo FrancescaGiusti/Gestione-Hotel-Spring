@@ -4,12 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class UtenteDtoFiltro {
-    @NotBlank
-    @Size(min = 3, message = "Il cognome deve contenere almeno 3 caratteri")
     private String nome;
-    @NotBlank
-    @Size(min = 3, message = "Il cognome deve contenere almeno 3 caratteri")
     private String cognome;
+    private String codiceFiscale;
 
     public String getNome() {
         return nome;
@@ -25,5 +22,13 @@ public class UtenteDtoFiltro {
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
+    }
+
+    public String getCodiceFiscale() {
+        return codiceFiscale;
+    }
+
+    public void setCodiceFiscale(String codiceFiscale) {
+        this.codiceFiscale = codiceFiscale;
     }
 }

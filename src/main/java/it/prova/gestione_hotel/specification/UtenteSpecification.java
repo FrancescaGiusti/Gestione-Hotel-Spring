@@ -11,11 +11,11 @@ import java.util.List;
 
 public class UtenteSpecification {
 
-    public static Specification<Utente> findByNameAndSurname (UtenteDtoFiltro filter){
+    public static Specification<Utente> searchWithFilter (UtenteDtoFiltro filter){
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            if (filter.getNome() != null && !filter.getCognome().isBlank()) {
+            if (filter.getNome() != null && !filter.getNome().isBlank()) {
                 predicates.add(
                         cb.like(
                                 cb.lower(root.get("nome")),
@@ -32,6 +32,14 @@ public class UtenteSpecification {
                         )
                 );
             }
+
+            if (filter.getCodiceFiscale() != null && !filter.getCodiceFiscale().isBlank()) {
+                predicates.add(cb.equal(
+                        cb.upper(root.get("codiceFiscale")),
+                        filter.getCodiceFiscale().toUpperCase()
+                ));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

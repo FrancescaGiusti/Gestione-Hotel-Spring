@@ -14,13 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HotelSpecification {
-    public static Specification<Hotel> searchByCity (HotelDtoFiltro filter) {
+    public static Specification<Hotel> searchWithFilter (HotelDtoFiltro filter) {
         return (root, query, cb) -> {
 
             List<Predicate> predicates = new ArrayList<>();
             if (filter.getCitta() != null && !filter.getCitta().isEmpty()) {
                 predicates.add(
                         cb.equal(cb.lower(root.get("citta")), filter.getCitta().toLowerCase())
+                );
+            }
+
+            if (filter.getNome() != null && !filter.getCitta().isEmpty()) {
+                predicates.add(
+                        cb.like(
+                                cb.lower(root.get("nome")),
+                                "%" + filter.getNome().toLowerCase() + "%"
+                        )
                 );
             }
 

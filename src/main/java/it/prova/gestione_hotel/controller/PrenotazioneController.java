@@ -1,8 +1,6 @@
 package it.prova.gestione_hotel.controller;
 
-import it.prova.gestione_hotel.dto.CameraDto;
-import it.prova.gestione_hotel.dto.CameraPatchDto;
-import it.prova.gestione_hotel.dto.PrenotazioneDto;
+import it.prova.gestione_hotel.dto.*;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.service.PrenotazioneService;
 import jakarta.validation.Valid;
@@ -61,6 +59,11 @@ public class PrenotazioneController {
     @GetMapping("/page")
     public ResponseEntity<Set<PrenotazioneDto>> getPrenotazioniPageable(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(prenotazioneService.getAllPageable(pageable));
+    }
+
+    @GetMapping("/filtro")
+    public ResponseEntity<Set<PrenotazioneDto>> cercaPrenotazioniConFiltro(PrenotazioneDtoFiltro filter, Pageable pageable){
+        return ResponseEntity.status(HttpStatus.OK).body(prenotazioneService.filtraPrenotazioni(filter, pageable));
     }
 
 }
