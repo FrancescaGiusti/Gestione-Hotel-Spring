@@ -2,7 +2,9 @@ package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.model.Prenotazione;
+import it.prova.gestione_hotel.validation.annotation.Today;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -15,9 +17,13 @@ public class PrenotazioneDto {
     @NotNull
     private UtenteDto utente;
     private CameraDto camera;
+    @NotNull
+    @Today
     private LocalDate dataDiPrenotazione;
+    @Future
     @NotNull
     private LocalDate dataInizioSoggiorno;
+    @Future
     @NotNull
     private LocalDate dataFineSoggiorno;
     private boolean annullata = false;

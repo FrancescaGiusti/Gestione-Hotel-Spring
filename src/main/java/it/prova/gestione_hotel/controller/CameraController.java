@@ -37,7 +37,7 @@ public class CameraController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> modifyCamera(@RequestBody CameraDto cameraDto) throws EntityNotFoundException {
+    public ResponseEntity<Void> modifyCamera(@Valid @RequestBody CameraDto cameraDto) throws EntityNotFoundException {
         cameraService.modifyRoom(cameraDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

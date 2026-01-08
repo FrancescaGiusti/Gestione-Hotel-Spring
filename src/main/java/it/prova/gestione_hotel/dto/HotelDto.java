@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class HotelDto {
     private Long id;
+    @NotBlank
     private String citta;
     @NotBlank
     private String indirizzo;

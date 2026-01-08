@@ -36,7 +36,7 @@ public class PrenotazioneController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> modifyPrenotazione(@RequestBody PrenotazioneDto prenotazioneDto) throws EntityNotFoundException {
+    public ResponseEntity<Void> modifyPrenotazione(@Valid @RequestBody PrenotazioneDto prenotazioneDto) throws EntityNotFoundException {
         prenotazioneService.modifyReservation(prenotazioneDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

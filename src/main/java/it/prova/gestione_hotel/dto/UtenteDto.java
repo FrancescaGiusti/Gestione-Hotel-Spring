@@ -2,9 +2,11 @@ package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.model.Utente;
+import it.prova.gestione_hotel.validation.annotation.CodiceFiscale;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,10 +15,13 @@ import java.util.stream.Collectors;
 public class UtenteDto {
     private Long id;
     @NotBlank
+    @Size(min = 3, message = "Il cognome deve contenere almeno 3 caratteri")
     private String nome;
     @NotBlank
+    @Size(min = 3, message = "Il cognome deve contenere almeno 3 caratteri")
     private String cognome;
     @NotBlank
+    @CodiceFiscale
     private String codiceFiscale;
     private Double creditoDisponibile;
     private Set<PrenotazioneDto> prenotazioni = new HashSet<>();
