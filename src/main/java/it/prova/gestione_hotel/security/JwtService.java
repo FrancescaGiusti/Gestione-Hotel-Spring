@@ -3,7 +3,6 @@ package it.prova.gestione_hotel.security;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import it.prova.gestione_hotel.config.JwtConfig;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 

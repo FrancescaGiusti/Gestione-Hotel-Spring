@@ -1,6 +1,5 @@
 package it.prova.gestione_hotel.dto;
 
-import jakarta.validation.constraints.Future;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;

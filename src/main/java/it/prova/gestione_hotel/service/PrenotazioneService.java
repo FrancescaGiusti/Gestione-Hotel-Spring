@@ -3,7 +3,6 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
-import it.prova.gestione_hotel.model.Prenotazione;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Set;

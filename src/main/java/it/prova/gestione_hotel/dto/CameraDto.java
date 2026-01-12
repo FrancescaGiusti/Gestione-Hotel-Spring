@@ -2,7 +2,6 @@ package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

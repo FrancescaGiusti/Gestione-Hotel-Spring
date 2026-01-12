@@ -1,8 +1,5 @@
 package it.prova.gestione_hotel.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 public class UtenteDtoFiltro {
     private String nome;
     private String cognome;

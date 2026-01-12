@@ -1,11 +1,8 @@
 package it.prova.gestione_hotel.dto;
 
-import it.prova.gestione_hotel.model.Hotel;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.validation.annotation.Today;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;

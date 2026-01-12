@@ -3,7 +3,6 @@ package it.prova.gestione_hotel.specification;
 import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.model.Utente;
 import jakarta.persistence.criteria.Predicate;
-import org.apache.catalina.User;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;

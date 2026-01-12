@@ -4,7 +4,6 @@ import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
 import it.prova.gestione_hotel.exception.CameraNonTrovataException;
-import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;

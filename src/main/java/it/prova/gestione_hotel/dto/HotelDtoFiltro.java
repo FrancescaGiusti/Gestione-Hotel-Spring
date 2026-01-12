@@ -1,7 +1,5 @@
 package it.prova.gestione_hotel.dto;
 
-import jakarta.validation.constraints.NotBlank;
-
 public class HotelDtoFiltro {
     private String citta;
     private String nome;

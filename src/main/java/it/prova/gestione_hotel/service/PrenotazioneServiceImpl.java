@@ -1,15 +1,11 @@
 package it.prova.gestione_hotel.service;
 
-import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.dto.PrenotazioneDtoFiltro;
-import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.exception.PrenotazioneNonTrovataException;
-import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Prenotazione;
 import it.prova.gestione_hotel.repository.PrenotazioneRepository;
-import it.prova.gestione_hotel.specification.CameraSpecification;
 import it.prova.gestione_hotel.specification.PrenotazioneSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

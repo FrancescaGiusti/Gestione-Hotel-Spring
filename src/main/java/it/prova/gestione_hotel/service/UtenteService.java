@@ -5,7 +5,6 @@ import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.Codice;
-import it.prova.gestione_hotel.model.Utente;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Set;

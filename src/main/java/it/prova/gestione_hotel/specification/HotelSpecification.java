@@ -1,12 +1,7 @@
 package it.prova.gestione_hotel.specification;
 
-import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.HotelDtoFiltro;
-import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Hotel;
-import it.prova.gestione_hotel.model.Prenotazione;
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

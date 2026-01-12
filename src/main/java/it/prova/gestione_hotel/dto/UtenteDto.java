@@ -1,11 +1,7 @@
 package it.prova.gestione_hotel.dto;
 
-import it.prova.gestione_hotel.model.Prenotazione;
-import it.prova.gestione_hotel.model.Ruolo;
 import it.prova.gestione_hotel.model.Utente;
 import it.prova.gestione_hotel.validation.annotation.CodiceFiscale;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

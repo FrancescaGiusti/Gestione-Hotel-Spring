@@ -1,10 +1,6 @@
 package it.prova.gestione_hotel.controller;
 
-import it.prova.gestione_hotel.config.JwtConfig;
 import it.prova.gestione_hotel.dto.LoginDto;
-import it.prova.gestione_hotel.dto.RuoloDto;
-import it.prova.gestione_hotel.dto.UtenteDto;
-import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.security.JwtService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController

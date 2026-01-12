@@ -1,8 +1,6 @@
 package it.prova.gestione_hotel.dto;
 
-import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Hotel;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.HashSet;
