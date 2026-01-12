@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,18 +29,21 @@ public class HotelController {
         return ResponseEntity.status(HttpStatus.OK).body(hotelService.getAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> addHotel(@Valid @RequestBody HotelDto hotelDto) {
         hotelService.addHotel(hotelDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
     public ResponseEntity<Void> modifyHotel(@RequestBody HotelDto hotelDto) throws EntityNotFoundException {
         hotelService.modifyHotel(hotelDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHotel(@PathVariable Long id) throws EntityNotFoundException {
         hotelService.deleteHotel(id);

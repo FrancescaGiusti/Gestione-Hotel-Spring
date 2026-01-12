@@ -4,6 +4,7 @@ import it.prova.gestione_hotel.dto.UtenteAggiungiCreditoDto;
 import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.dto.UtenteDtoFiltro;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
+import it.prova.gestione_hotel.model.Codice;
 import it.prova.gestione_hotel.model.Utente;
 import org.springframework.data.domain.Pageable;
 
@@ -18,4 +19,6 @@ public interface UtenteService {
     void addCredito(UtenteAggiungiCreditoDto utenteAggiungiCreditoDto) throws EntityNotFoundException;
     Set<UtenteDto> getAllPaginated(Pageable pageable);
     Set<UtenteDto> getAllFiltered(UtenteDtoFiltro filter, Pageable pageable);
+    void addRolesToUser(String username, Codice codiceRuolo) throws EntityNotFoundException;
+    UtenteDto findByUsername(String username);
 }

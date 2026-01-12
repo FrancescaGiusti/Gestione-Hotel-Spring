@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,24 +31,28 @@ public class CameraController {
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAll());
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<Void> addCamera(@Valid @RequestBody CameraDto cameraDto) {
         cameraService.addRoom(cameraDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping
     public ResponseEntity<Void> modifyCamera(@Valid @RequestBody CameraDto cameraDto) throws EntityNotFoundException {
         cameraService.modifyRoom(cameraDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCamera(@PathVariable Long id) throws EntityNotFoundException {
         cameraService.deleteRoom(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PatchMapping("/{id}")
     public ResponseEntity<Void> modifyPartiallyCamera (@PathVariable Long id, @Valid @RequestBody CameraPatchDto cameraPatchDto) throws EntityNotFoundException {
         cameraService.modifyPartiallyCamera(id, cameraPatchDto);

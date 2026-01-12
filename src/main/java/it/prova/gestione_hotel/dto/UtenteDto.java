@@ -1,6 +1,7 @@
 package it.prova.gestione_hotel.dto;
 
 import it.prova.gestione_hotel.model.Prenotazione;
+import it.prova.gestione_hotel.model.Ruolo;
 import it.prova.gestione_hotel.model.Utente;
 import it.prova.gestione_hotel.validation.annotation.CodiceFiscale;
 import jakarta.persistence.*;
@@ -15,6 +16,12 @@ import java.util.stream.Collectors;
 public class UtenteDto {
     private Long id;
     @NotBlank
+    @Size(min = 3, message = "Lo username deve contenere almeno 3 caratteri")
+    private String username;
+    @NotBlank
+    @Size(min = 5, message = "La password deve contenere almeno 5 caratteri")
+    private String password;
+    @NotBlank
     @Size(min = 3, message = "Il cognome deve contenere almeno 3 caratteri")
     private String nome;
     @NotBlank
@@ -25,6 +32,7 @@ public class UtenteDto {
     private String codiceFiscale;
     private Double creditoDisponibile;
     private Set<PrenotazioneDto> prenotazioni = new HashSet<>();
+    private Set<RuoloDto> ruoli = new HashSet<>();
 
     public UtenteDto(){}
 
@@ -76,6 +84,30 @@ public class UtenteDto {
         this.prenotazioni = prenotazioni;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<RuoloDto> getRuoli() {
+        return ruoli;
+    }
+
+    public void setRuoli(Set<RuoloDto> ruoli) {
+        this.ruoli = ruoli;
+    }
+
     public static UtenteDto fromModel(Utente utente) {
         UtenteDto utenteDto = new UtenteDto();
         utenteDto.setNome(utente.getNome());
@@ -84,6 +116,8 @@ public class UtenteDto {
         utenteDto.setId(utente.getId());
         utenteDto.setPrenotazioni(PrenotazioneDto.fromModelLight(utente.getPrenotazioni()));
         utenteDto.setCreditoDisponibile(utente.getCreditoDisponibile());
+        utenteDto.setUsername(utente.getUsername());
+        utenteDto.setRuoli(RuoloDto.fromModelLight(utente.getRuoli()));
         return utenteDto;
     }
 
@@ -99,6 +133,9 @@ public class UtenteDto {
         utente.setPrenotazioni((this.getPrenotazioni().stream().map(p-> p.toModel()).collect(Collectors.toSet())));
         utente.setId(this.getId());
         utente.setCreditoDisponibile(this.getCreditoDisponibile() == null ? 0 : this.getCreditoDisponibile());
+        utente.setUsername(this.getUsername());
+        utente.setPassword(this.getPassword());
+        utente.setRuoli(this.getRuoli().stream().map(r -> r.toModel()).collect(Collectors.toSet()));
         return utente;
     }
 
@@ -108,7 +145,8 @@ public class UtenteDto {
         utenteDto.setCognome(utente.getCognome());
         utenteDto.setCodiceFiscale(utente.getCodiceFiscale());
         utenteDto.setId(utente.getId());
-        utenteDto.setCreditoDisponibile(utenteDto.getCreditoDisponibile());
+        utenteDto.setCreditoDisponibile(utente.getCreditoDisponibile());
+        utenteDto.setUsername(utente.getUsername());
         return utenteDto;
     }
 
