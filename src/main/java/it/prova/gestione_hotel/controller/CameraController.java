@@ -3,6 +3,7 @@ package it.prova.gestione_hotel.controller;
 import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
+import it.prova.gestione_hotel.dto.UtenteDto;
 import it.prova.gestione_hotel.exception.EntityNotFoundException;
 import it.prova.gestione_hotel.model.TipoCamera;
 import it.prova.gestione_hotel.service.CameraService;
@@ -72,6 +73,11 @@ public class CameraController {
     @GetMapping("/filtro")
     public ResponseEntity<Set<CameraDto>> cercaCamereConFiltro(CameraDtoFiltro filter, Pageable pageable){
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.findCameraWithFilter(filter, pageable));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CameraDto> findById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.findById(id));
     }
 
 
