@@ -22,7 +22,7 @@ public class JwtService {
                 .setSubject(user.getUsername())
                 .claim("role", user.getAuthorities())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3_600_000))
+                .setExpiration(new Date(System.currentTimeMillis() +  3_600_000))
                 .signWith(Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes(StandardCharsets.UTF_8)))
                 .compact();
     }
