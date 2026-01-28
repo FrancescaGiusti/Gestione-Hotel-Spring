@@ -1,5 +1,6 @@
 package it.prova.gestione_hotel.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +30,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (header != null && header.startsWith("Bearer ")) {
             String token = header.substring(7);
-            String username = jwtService.extractUsername(token);
+            String username;
+            try {
+                username = jwtService.extractUsername(token);
+            } catch (ExpiredJwtException e) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
             UserDetails user = userDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
