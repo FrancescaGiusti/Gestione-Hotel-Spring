@@ -72,7 +72,7 @@ public class HotelDto {
         HotelDto hotelDto = new HotelDto();
         hotelDto.setCitta(hotel.getCitta());
         hotelDto.setId(hotel.getId());
-        hotelDto.setCivico(hotelDto.getCivico());
+        hotelDto.setCivico(hotel.getCivico());
         hotelDto.setNome(hotel.getNome());
         hotelDto.setIndirizzo(hotel.getIndirizzo());
         hotelDto.setCamere(CameraDto.fromModelLight(hotel.getCamere()));
@@ -97,9 +97,9 @@ public class HotelDto {
         HotelDto hotelDto = new HotelDto();
         hotelDto.setCitta(hotel.getCitta());
         hotelDto.setId(hotel.getId());
-        hotelDto.setCivico(hotelDto.getCivico());
+        hotelDto.setCivico(hotel.getCivico());
         hotelDto.setNome(hotel.getNome());
-        hotelDto.setIndirizzo(hotelDto.getIndirizzo());
+        hotelDto.setIndirizzo(hotel.getIndirizzo());
         return hotelDto;
     }
 

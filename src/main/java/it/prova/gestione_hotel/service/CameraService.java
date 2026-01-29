@@ -19,4 +19,5 @@ public interface CameraService {
     Set<CameraDto> findByTipoCamera(TipoCamera tipoCamera);
     Set<CameraDto> findAllPageable(Pageable pageable);
     Set<CameraDto> findCameraWithFilter (CameraDtoFiltro filter, Pageable pageable);
+    Set<CameraDto> getCameraByHotel(Long hotelId);
 }

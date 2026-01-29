@@ -27,10 +27,10 @@ public class CameraController {
         this.cameraService = cameraService;
     }
 
-    @GetMapping
-    public ResponseEntity<Set<CameraDto>> getCamere() {
-        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAll());
-    }
+//    @GetMapping
+//    public ResponseEntity<Set<CameraDto>> getCamere() {
+//        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAll());
+//    }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
@@ -80,5 +80,11 @@ public class CameraController {
         return ResponseEntity.status(HttpStatus.OK).body(cameraService.findById(id));
     }
 
-
+    @GetMapping
+    public ResponseEntity<Set<CameraDto>> getCamere(@RequestParam(required = false) Long hotelId) {
+        if (hotelId != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(cameraService.getCameraByHotel(hotelId));
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(cameraService.getAll());
+    }
 }

@@ -11,4 +11,5 @@ import java.util.Set;
 @Repository
 public interface CameraRepository extends JpaRepository<Camera, Long>, JpaSpecificationExecutor<Camera> {
     Set<Camera> findByTipoCamera(TipoCamera tipoCamera);
+    Set<Camera> findByHotelId(Long hotelId);
 }

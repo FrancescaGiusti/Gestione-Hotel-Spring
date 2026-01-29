@@ -99,5 +99,13 @@ public class CameraServiceImpl implements CameraService{
         return camerePaginate.stream().map(c -> CameraDto.fromModel(c)).collect(Collectors.toSet());
     }
 
+    @Override
+    public Set<CameraDto> getCameraByHotel(Long hotelId) {
+        return cameraRepository.findByHotelId(hotelId)
+                .stream()
+                .map(c -> CameraDto.fromModel(c))
+                .collect(Collectors.toSet());
+    }
+
 
 }
