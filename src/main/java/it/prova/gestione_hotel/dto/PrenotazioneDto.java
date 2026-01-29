@@ -11,10 +11,8 @@ import java.util.stream.Collectors;
 
 public class PrenotazioneDto {
     private Long id;
-    @NotNull
     private UtenteDto utente;
     private CameraDto camera;
-    @NotNull
     @Today
     private LocalDate dataDiPrenotazione;
     @Future
