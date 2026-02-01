@@ -18,6 +18,11 @@ public class GlobalExceptionHandler {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(CameraConPrenotazioniException.class)
+    public ResponseEntity<ApiError> handleCameraConPrenotazioni(CameraConPrenotazioniException ex) {
+        return buildError(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ApiError> handleEntityNonTrovata(EntityNotFoundException ex) {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());

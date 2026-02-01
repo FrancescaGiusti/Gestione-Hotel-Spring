@@ -1,5 +1,6 @@
 package it.prova.gestione_hotel.repository;
 
+import it.prova.gestione_hotel.dto.PrenotazioneDto;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.Prenotazione;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,5 @@ public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Long
     Set<Prenotazione> findByAnnullataFalse();
     boolean existsByCameraAndDataInizioSoggiornoLessThanEqualAndDataFineSoggiornoGreaterThanEqual(
             Camera camera, LocalDate dataFine, LocalDate dataInizio);
+    Set<Prenotazione> findByCameraId(Long id);
 }

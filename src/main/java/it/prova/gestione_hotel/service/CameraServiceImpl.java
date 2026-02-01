@@ -3,11 +3,13 @@ package it.prova.gestione_hotel.service;
 import it.prova.gestione_hotel.dto.CameraDto;
 import it.prova.gestione_hotel.dto.CameraDtoFiltro;
 import it.prova.gestione_hotel.dto.CameraPatchDto;
+import it.prova.gestione_hotel.exception.CameraConPrenotazioniException;
 import it.prova.gestione_hotel.exception.CameraNonTrovataException;
 import it.prova.gestione_hotel.exception.InputNonValidoException;
 import it.prova.gestione_hotel.model.Camera;
 import it.prova.gestione_hotel.model.TipoCamera;
 import it.prova.gestione_hotel.repository.CameraRepository;
+import it.prova.gestione_hotel.repository.PrenotazioneRepository;
 import it.prova.gestione_hotel.specification.CameraSpecification;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ import java.util.stream.Collectors;
 @Transactional
 public class CameraServiceImpl implements CameraService{
     private final CameraRepository cameraRepository;
+    private final PrenotazioneRepository prenotazioneRepository;
 
     @Autowired
-    public CameraServiceImpl(CameraRepository cameraRepository) {
+    public CameraServiceImpl(CameraRepository cameraRepository, PrenotazioneRepository prenotazioneRepository) {
         this.cameraRepository = cameraRepository;
+        this.prenotazioneRepository = prenotazioneRepository;
     }
 
     @Override
@@ -62,6 +66,9 @@ public class CameraServiceImpl implements CameraService{
         Camera cameraDaEliminare = cameraRepository.findById(id).orElse(null);
         if ( cameraDaEliminare== null)
             throw new CameraNonTrovataException("La camera che vuoi eliminare non esiste");
+        if (!prenotazioneRepository.findByCameraId(cameraDaEliminare.getId()).isEmpty()){
+            throw new CameraConPrenotazioniException("Prenotazioni esistenti");
+        }
         cameraRepository.delete(cameraDaEliminare);
     }
 
