@@ -101,9 +101,9 @@ public class PrenotazioneDto {
     public Prenotazione toModel(){
         Prenotazione prenotazione = new Prenotazione();
         prenotazione.setAnnullata(this.isAnnullata());
-        prenotazione.setCamera(this.getCamera().toModel());
+        prenotazione.setCamera(this.getCamera() != null ? this.getCamera().toModel() : null);
         prenotazione.setDataDiPrenotazione(this.getDataDiPrenotazione());
-        prenotazione.setUtente(this.getUtente().toModel());
+        prenotazione.setUtente(this.getUtente() != null ? this.getUtente().toModel() : null);
         prenotazione.setDataInizioSoggiorno(this.getDataInizioSoggiorno());
         prenotazione.setDataFineSoggiorno(this.getDataFineSoggiorno());
         prenotazione.setId(this.getId());
